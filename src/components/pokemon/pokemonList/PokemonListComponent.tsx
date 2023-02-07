@@ -17,10 +17,13 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 // Models
 import { PokemonList } from '../../../models/PokemonList'
+import { PokemonColor } from '../../../models/PokemonColor';
 
 type PokemonListComponentProps = {
-    pokemonList: PokemonList | null
+    pokemonList: PokemonListProps[] | null
     pokemonListIsFeching: boolean
+    // pokemonColor: PokemonColor | null
+    // handlePokemonColor: (pokemonName: string) => void
 }
 
 type PokemonProps = {
@@ -28,8 +31,16 @@ type PokemonProps = {
     url: string
 }
 
+type PokemonListProps = {
+    id?: number
+    name?: string
+    color?: string
+    url?: string
+    imageUrl?: string
+  } 
+
 const SkeletonComponent = (data: undefined[]) => (
-    data.map((dataItem: undefined, key: number) => (
+    data?.map((dataItem: undefined, key: number) => (
         <Grid item key={key}>
             <Skeleton
                 sx={{ bgcolor: 'grey.400' }}
@@ -52,13 +63,21 @@ const CardListComponent = (data: any) => {
 
         return `${baseUrlPokemonImage}${CurrentIdPokemon}.png`
     }
+
+    const pokemonNameFirstLetterUpperCase = (pokemonName: string) => {
+        const firstLetterUpperCase = pokemonName.replace(/^./, pokemonName[0].toUpperCase());
+    
+        return firstLetterUpperCase;
+    }
     
     return (
-        data.map((dataItem: PokemonProps, key: number) => (
+        data?.map((dataItem: PokemonProps, key: number) => (
             <Grid item key={key}>
-                <Card sx={{ maxWidth: 345 }}>
+                <Card sx={{ maxWidth: 345, borderRadius: 10, backgroundColor: dataItem?.color, fontWeight: 700, color: dataItem?.color === 'white' || dataItem?.color === 'yellow'? '#000000' : '#ffffff' }}>
+                    
                     <CardHeader
-                        title={dataItem?.name}
+                        style={{ textAlign: 'center' }}
+                        title={pokemonNameFirstLetterUpperCase(dataItem?.name)}
                     />
                     <CardMedia
                         component='img'
@@ -83,10 +102,12 @@ const CardListComponent = (data: any) => {
 
 
 
+
 export const PokemonListComponent = (props: PokemonListComponentProps) => {
 
     const skeletonMock: undefined[] = Array.from(new Array(20))
 
+    // console.log(props)
     return (
         <Grid
             container
@@ -97,7 +118,7 @@ export const PokemonListComponent = (props: PokemonListComponentProps) => {
             {
                 props.pokemonListIsFeching ?
                     SkeletonComponent(skeletonMock) :
-                    CardListComponent(props.pokemonList?.results)
+                    CardListComponent(props.pokemonList)
             }
         </Grid>
     )

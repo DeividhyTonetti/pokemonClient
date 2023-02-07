@@ -4,6 +4,7 @@ import React from 'react';
 import {
   AppBar,
   Grid,
+  IconButton,
   InputBase,
   Toolbar,
   Typography
@@ -61,15 +62,28 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 // Models
 import { PokemonList } from '../../../models/PokemonList'
+import { PokemonColor } from '../../../models/PokemonColor';
 
 // Component
-import { PokemonListComponent } from '../pokemonList/PokemonListComponent';
+import { PokemonListComponent } from '../pokemonList/PokemonListComponent'
+
+
+type PokemonListProps = {
+  id?: number
+  name?: string
+  color?: string
+  url?: string
+  imageUrl?: string
+} 
 
 type HomeProps = {
-  pokemonList: PokemonList | null
+  pokemonList: PokemonListProps[] | null
   pokemonListIsFeching: boolean
+  // pokemonColor: PokemonColor | null
+  // handlePokemonColor: (pokemonName: string) => void
 }
 
+import ReactLogo from '../../../assets/pokeapi.svg'
 
 export const Home = (props: HomeProps) => {
 
@@ -87,7 +101,9 @@ export const Home = (props: HomeProps) => {
               component="div"
               sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
             >
-              MUI
+               <IconButton edge="start" color="inherit" aria-label="menu" disabled>
+                <img src={ReactLogo} alt="Logo" style={{maxHeight: 50, marginLeft: 5}} />
+              </IconButton>
             </Typography>
             <Search>
               <SearchIconWrapper>
@@ -105,6 +121,8 @@ export const Home = (props: HomeProps) => {
       <Grid item xs={12} sx={{marginTop: 8, marginLeft: 2, marginRight: 1}}>
         <PokemonListComponent
           pokemonList={props.pokemonList}
+          // pokemonColor={props.pokemonColor}
+          // handlePokemonColor={props.handlePokemonColor}
           pokemonListIsFeching={props.pokemonListIsFeching}
         />
       </Grid>
