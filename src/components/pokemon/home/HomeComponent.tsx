@@ -83,7 +83,7 @@ type HomeProps = {
   // handlePokemonColor: (pokemonName: string) => void
 }
 
-import ReactLogo from '../../../assets/pokeapi.svg'
+import ReactLogo from '../../../assets/pokemon.svg'
 
 export const Home = (props: HomeProps) => {
 
@@ -118,7 +118,7 @@ export const Home = (props: HomeProps) => {
         </AppBar>
       </Grid>
 
-      <Grid item xs={12} sx={{marginTop: 8, marginLeft: 2, marginRight: 1}}>
+      <Grid item xs={12} sx={{marginTop: 9, marginLeft: 2, marginRight: 1, marginBottom: 2}}>
         <PokemonListComponent
           pokemonList={props.pokemonList}
           // pokemonColor={props.pokemonColor}

@@ -4,9 +4,10 @@ import React, { useState, useEffect, useMemo } from 'react'
 // Pokemon API oficial
 // import { useFetch } from '../../../API/axiosPokemonAPI' // Via AXIOs
 
-import { 
-    fetchPokemonList, 
-    fetchPokemonColor 
+import {
+    fetchPokemonList,
+    fetchPokemonListById,
+    fetchPokemonColor
 } from '../../../API/fetchPokemonAPI'
 
 // Components
@@ -23,7 +24,8 @@ type PokemonListProps = {
     color?: string
     url?: string
     imageUrl?: string
-} 
+    types?: any
+}
 
 type HomeContainerProps = {
 
@@ -39,21 +41,24 @@ export const HomeContainer = (props: HomeContainerProps) => {
         setIsFetching(false)
     }
 
-    const getPokemonList = async(): Promise<PokemonList |null> => {
+    const getPokemonList = async (): Promise<PokemonList | null> => {
         const _pokemonList = (await fetchPokemonList()).data
         // setPokemonList(_pokemonList);
 
         return _pokemonList
     }
-    
-    const getPokemonDetails = () => {
 
+    const getPokemonDetails = async (pokemonId: number) => {
+        const _pokemonList = (await fetchPokemonListById(pokemonId)).data
+
+        console.log(_pokemonList)
+        return _pokemonList?.types
     }
 
-    const getPokemonColorById = async(pokemonId: number) => {
+    const getPokemonColorById = async (pokemonId: number) => {
         const _pokemonColor = (await fetchPokemonColor(pokemonId)).data
-        
-       return _pokemonColor?.color?.name;
+
+        return _pokemonColor?.color?.name;
     }
 
     const getPokemonId = (url: string): number => {
@@ -70,28 +75,34 @@ export const HomeContainer = (props: HomeContainerProps) => {
     }
 
     // tenho que muydar essa função depois
-    const findPokemonColorByID =  async (teste: any) => {
-        const teste2 =  await Promise.all(teste.map( async( item: any, key: number) => {
+    const findPokemonInformationsByID = async (teste: any) => {
+        const teste2 = await Promise.all(teste.map(async (item: any, key: number) => {
 
             const pokemonId = getPokemonId(item?.url)
+
+            // console.log('Item => ', item)
+
+            // getPokemonDetails(pokemonId)
 
             const newPokemonList = {
                 id: pokemonId,
                 name: item?.name,
-                color:  await getPokemonColorById(pokemonId),
+                color: await getPokemonColorById(pokemonId),
                 url: item?.url,
-                imageUrl: getPokemonImageUrl(pokemonId)
+                imageUrl: getPokemonImageUrl(pokemonId),
+                types: await getPokemonDetails(pokemonId)
             } as PokemonListProps
 
             return newPokemonList
         }))
 
-        return  teste2 as PokemonListProps[]
+        return teste2 as PokemonListProps[]
     }
 
-    const handleInitialLoading = async () => {
+    const handleInitialLoading = async (): Promise<void> => {
         const allListPokemons = (await getPokemonList())?.results
-        const listPokemonColorsAndIds  = await findPokemonColorByID(allListPokemons)
+
+        const listPokemonColorsAndIds = await findPokemonInformationsByID(allListPokemons)
 
 
         setPokemonList(listPokemonColorsAndIds)
@@ -99,13 +110,13 @@ export const HomeContainer = (props: HomeContainerProps) => {
     }
 
     useEffect(() => {
-        if(!pokemonList)
+        if (!pokemonList)
             loadingNotification(handleInitialLoading)
     }, []);
-    
+
 
     return (
-       
+
         <Home
             pokemonList={pokemonList}
             // pokemonColor={pokemonColor}

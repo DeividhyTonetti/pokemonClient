@@ -20,6 +20,25 @@ export const fetchPokemonList = async () => {
   return { response, data, error };
 };
 
+export const fetchPokemonListById = async (pokemonId: number) => {
+  const URL = `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`;
+
+  let response;
+  let data: any | null;
+  let error;
+
+  try {
+    response = await fetch(URL);
+    data = await response.json();
+    error = false;
+  } catch {
+    data = null;
+    error = true;
+  }
+
+  return { response, data, error };
+};
+
 
 export const fetchPokemonColor = async (pokemonId: number) => {
     const URL = `https://pokeapi.co/api/v2/pokemon-species/${pokemonId}/`;
