@@ -8,14 +8,14 @@ import {
     fetchPokemonList,
     fetchPokemonListById,
     fetchPokemonColor
-} from '../../../API/fetchPokemonAPI'
+} from '../../API/fetchPokemonAPI'
 
 // Components
 import { Home } from './HomeComponent'
 
 // Models
-import { PokemonList } from '../../../models/PokemonList'
-import { PokemonColor } from '../../../models/PokemonColor'
+import { PokemonList } from '../../models/PokemonList'
+import { PokemonColor } from '../../models/PokemonColor'
 
 
 type PokemonListProps = {
@@ -43,16 +43,14 @@ export const HomeContainer = (props: HomeContainerProps) => {
 
     const getPokemonList = async (): Promise<PokemonList | null> => {
         const _pokemonList = (await fetchPokemonList()).data
-        // setPokemonList(_pokemonList);
-
+    
         return _pokemonList
     }
 
     const getPokemonDetails = async (pokemonId: number) => {
         const _pokemonList = (await fetchPokemonListById(pokemonId)).data
 
-        console.log(_pokemonList)
-        return _pokemonList?.types
+        return _pokemonList
     }
 
     const getPokemonColorById = async (pokemonId: number) => {
@@ -74,54 +72,42 @@ export const HomeContainer = (props: HomeContainerProps) => {
         return `${baseUrlPokemonImage}${currentIdPokemon}.png`
     }
 
-    // tenho que muydar essa função depois
     const findPokemonInformationsByID = async (teste: any) => {
-        const teste2 = await Promise.all(teste.map(async (item: any, key: number) => {
-
+        const allPokemonInformation = await Promise.all(teste.map(async (item: any, key: number) => {
             const pokemonId = getPokemonId(item?.url)
-
-            // console.log('Item => ', item)
-
-            // getPokemonDetails(pokemonId)
 
             const newPokemonList = {
                 id: pokemonId,
                 name: item?.name,
-                color: await getPokemonColorById(pokemonId),
                 url: item?.url,
+                color: await getPokemonColorById(pokemonId),
                 imageUrl: getPokemonImageUrl(pokemonId),
-                types: await getPokemonDetails(pokemonId)
+                ... await getPokemonDetails(pokemonId)
             } as PokemonListProps
 
             return newPokemonList
         }))
 
-        return teste2 as PokemonListProps[]
+        return allPokemonInformation as PokemonListProps[]
     }
 
     const handleInitialLoading = async (): Promise<void> => {
         const allListPokemons = (await getPokemonList())?.results
-
         const listPokemonColorsAndIds = await findPokemonInformationsByID(allListPokemons)
 
-
         setPokemonList(listPokemonColorsAndIds)
-
     }
 
     useEffect(() => {
         if (!pokemonList)
             loadingNotification(handleInitialLoading)
-    }, []);
+    }, [])
 
 
     return (
 
         <Home
             pokemonList={pokemonList}
-            // pokemonColor={pokemonColor}
-            // handlePokemonColor={getPokemonColor}
-            // pokemonDetails={}
             pokemonListIsFeching={isFetching}
         />
     )

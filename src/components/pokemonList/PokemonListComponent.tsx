@@ -20,18 +20,18 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
 // Models
-import { PokemonList } from '../../../models/PokemonList'
-import { PokemonColor } from '../../../models/PokemonColor';
+import { PokemonList } from '../../models/PokemonList'
+import { PokemonColor } from '../../models/PokemonColor';
 import { Button, Chip } from '@mui/material';
 
 type PokemonListComponentProps = {
     pokemonList: PokemonListProps[] | null
     pokemonListIsFeching: boolean
-    // pokemonColor: PokemonColor | null
-    // handlePokemonColor: (pokemonName: string) => void
+    handlePokemonSelected: (pokemonId: number) => void
 }
 
 type PokemonProps = {
+    id?: number
     name: string
     url: string
     color: string
@@ -78,8 +78,6 @@ import LandslideIcon from '@mui/icons-material/Landslide';
 import TsunamiIcon from '@mui/icons-material/Tsunami';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 
-import EmojiNatureIcon from '@mui/icons-material/EmojiNature';
-
 
 const pokemonType = (type: string) => {
     const pokemonTypes = { 
@@ -106,7 +104,7 @@ const pokemonType = (type: string) => {
     return pokemonTypes[type]
 } 
 
-const CardListComponent = (data: any) => {
+const CardListComponent = (data: any, handlePokemonSelected: Function) => {
 
     const getPokemonImageUrl = (url: string): string => {
         const baseUrlPokemonImage: string = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/'
@@ -123,8 +121,6 @@ const CardListComponent = (data: any) => {
         return firstLetterUpperCase;
     }
 
-
-    // console.log('DATA => ', data)
     return (
         data?.map((dataItem: PokemonProps, key: number) => (
             <Grid item xs={2} key={key}>
@@ -177,6 +173,7 @@ const CardListComponent = (data: any) => {
                     <Button
                         variant="contained"
                         fullWidth
+                        onClick={ () => handlePokemonSelected(dataItem?.id)}
                         sx={{
                             padding: 0,
                             borderRadius: '50% 50% 0% 0%',
@@ -198,7 +195,6 @@ export const PokemonListComponent = (props: PokemonListComponentProps) => {
 
     const skeletonMock: undefined[] = Array.from(new Array(20))
 
-    // console.log(props)
     return (
         <Grid
             container
@@ -209,7 +205,7 @@ export const PokemonListComponent = (props: PokemonListComponentProps) => {
             {
                 props.pokemonListIsFeching ?
                     SkeletonComponent(skeletonMock) :
-                    CardListComponent(props.pokemonList)
+                    CardListComponent(props.pokemonList, props.handlePokemonSelected)
             }
         </Grid>
     )
