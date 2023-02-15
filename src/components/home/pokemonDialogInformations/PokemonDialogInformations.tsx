@@ -43,8 +43,8 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme, value }) => ({
 
 
 // Models
-import { PokemonList } from '../../models/PokemonList'
-import { PokemonColor } from '../../models/PokemonColor';
+import { PokemonList } from '../../../models/PokemonList'
+import { PokemonColor } from '../../../models/PokemonColor';
 import zIndex from '@mui/material/styles/zIndex';
 import { Box } from '@mui/system';
 

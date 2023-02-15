@@ -10,11 +10,21 @@ import { ThemeProvider } from '@mui/material'
 import { LightTheme } from './themes/light'
 import { CssBaseline } from '@mui/material/'
 
+// React Dom V6
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+
+//  Routes 
+import { router } from './Routes/routes' 
+
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider theme={LightTheme}>
       <CssBaseline/>
-      <HomeContainer />
+      <RouterProvider router={router} />
     </ThemeProvider>
   </React.StrictMode>,
 )

@@ -20,8 +20,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
 // Models
-import { PokemonList } from '../../models/PokemonList'
-import { PokemonColor } from '../../models/PokemonColor';
+import { PokemonList } from '../../../models/PokemonList'
+import { PokemonColor } from '../../../models/PokemonColor';
 import { Button, Chip } from '@mui/material';
 
 type PokemonListComponentProps = {
