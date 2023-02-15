@@ -23,6 +23,7 @@ type tabBarProps = {
     routeLink: string
     searchEnable: boolean
     buttonTeamIsEnabled: boolean
+    handleChangeTeamDialog: () => void
 }
 
 export const TabBar = (props: tabBarProps) => {
@@ -41,8 +42,16 @@ export const TabBar = (props: tabBarProps) => {
 
                 {
                     props.buttonTeamIsEnabled &&
-                    <Button variant='contained' sx={{ borderRadius: 15, marginRight: '1em', backgroundColor: '#14A8FF'}}>
-                    Adicionar Time
+                    <Button 
+                        variant='contained' 
+                        sx={{ 
+                            borderRadius: 15, 
+                            marginRight: '1em', 
+                            backgroundColor: '#14A8FF'
+                        }}
+                        onClick={props.handleChangeTeamDialog}
+                    >
+                        Adicionar Time
                     </Button>
                 }
 

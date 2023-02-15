@@ -12,7 +12,12 @@ import {
 
 // Prototypes
 type TeamDialogFormProps = {
-
+    teamDialog: boolean
+    handleChangeTeamDialog: () => void
+    handleAddTeam: () => void
+    handleAddPokemon: () => void
+    handleRemovePokemon: () => void
+    handleRemoveTeam: () => void
 }
 
 export const TeamDialogForm = (props: TeamDialogFormProps) => {
@@ -20,7 +25,7 @@ export const TeamDialogForm = (props: TeamDialogFormProps) => {
 
 
     return (
-        <Dialog open={true} onClose={() => {}} fullWidth>
+        <Dialog open={props.teamDialog} fullWidth>
             <DialogTitle> Adicionar um Novo Time </DialogTitle>
             <DialogContent>
                 <TextField
@@ -34,8 +39,8 @@ export const TeamDialogForm = (props: TeamDialogFormProps) => {
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => {}}> Cancelar </Button>
-                <Button onClick={() => {}}> Adicionar </Button>
+                <Button onClick={props.handleChangeTeamDialog}> Cancelar </Button>
+                <Button onClick={() => props.handleChangeTeamDialog()}> Adicionar </Button>
             </DialogActions>
         </Dialog>
     )

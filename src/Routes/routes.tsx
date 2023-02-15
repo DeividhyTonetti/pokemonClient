@@ -5,7 +5,7 @@ import {
 
 // Components
 import { HomeContainer } from "../components/home/HomeContainer";
-import { PokemonTeams } from "../components/pokemonTeams/PokemonTeams";
+import { PokemonTeamsContainer } from "../components/pokemonTeams/PokemonTeamsContainer";
 
 export const router = createBrowserRouter([
     {
@@ -14,6 +14,6 @@ export const router = createBrowserRouter([
     },
     {
         path: "/teams",
-        element: <PokemonTeams />,
+        element: <PokemonTeamsContainer />,
     },
 ]);

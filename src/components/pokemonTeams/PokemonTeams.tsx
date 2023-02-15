@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // MUI V5
 import {
@@ -16,12 +16,15 @@ import { TeamDialogForm } from './teamDialogForm/TeamDialogForm';
 
 // Prototypes
 type PokemonTeamsProps = {
-
+    teamDialog: boolean
+    handleChangeTeamDialog: () => void
+    handleAddTeam: () => void
+    handleAddPokemon: () => void
+    handleRemovePokemon: () => void
+    handleRemoveTeam: () => void
 }
 
 export const PokemonTeams = (props: PokemonTeamsProps) => {
-    // const [pokemonInformations, setPokemonInformations] = useState<PokemonListProps | null>(null)
-
 
     return (
         <Grid
@@ -32,8 +35,9 @@ export const PokemonTeams = (props: PokemonTeamsProps) => {
                 <TabBar
                     routeName={'Home'}
                     routeLink={'/'}
-                    searchEnable={false} 
+                    searchEnable={false}
                     buttonTeamIsEnabled={true}
+                    handleChangeTeamDialog={props.handleChangeTeamDialog}
                 />
             </Grid>
 
@@ -41,7 +45,14 @@ export const PokemonTeams = (props: PokemonTeamsProps) => {
                 <TeamList />
             </Grid>
             <Grid item>
-                <TeamDialogForm />
+                <TeamDialogForm
+                    teamDialog={props.teamDialog}
+                    handleAddTeam={props.handleAddTeam}
+                    handleAddPokemon={props.handleAddPokemon}
+                    handleChangeTeamDialog={props.handleChangeTeamDialog}
+                    handleRemovePokemon={props.handleRemovePokemon}
+                    handleRemoveTeam={props.handleRemoveTeam}
+                />
             </Grid>
         </Grid>
     )
