@@ -39,8 +39,8 @@ const paperStyle = {
     margin: '1em',
     padding: '1em',
     maxWidth: '20em',
-    display: "flex",
-    justifyContent: "center",
+    display: 'flex',
+    justifyContent: 'center',
     background: 'rgba(255, 255, 255, 0.1)',
     borderRadius: '16px',
     boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
@@ -50,8 +50,8 @@ const paperStyle = {
 }
 
 const typographyStyle = {
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center',
     marginRight: '5px'
 }
 
@@ -60,6 +60,8 @@ type TeamListComponentProps = {
     teamList: TeamListProps[] | null
     pokemonDialogOpened: boolean
     handleChangePokemonDialog: (teamName: string | null) => void
+    handleRemovePokemon: (teamId: string) => void
+    handleRemoveTeam: (teamName: string) => void
 }
 
 
@@ -72,16 +74,15 @@ export const TeamList = (props: TeamListComponentProps) => {
                 value.pokemonId &&
                 <Grid
                     item
-                    direction="column"
+                    direction='column'
                     sx={{ margin: 2 }}
                 >
                     <Grid item xs={2}>
                         <Avatar
-                            alt="imagePokemon"
+                            alt='imagePokemon'
                             src={value.imageUrl}
                             sx={avatarStyles}
                         />
-
                     </Grid>
                     <Grid item xs={5}>
                         <Paper
@@ -98,9 +99,13 @@ export const TeamList = (props: TeamListComponentProps) => {
                                 {value.pokemonName}
 
                             </Typography>
-                            <IconButton aria-label="delete" size="large" >
-                                <Tooltip title="Remover Pokémon">
-                                    <DeleteIcon fontSize="inherit" />
+                            <IconButton
+                                aria-label='deletePokemon'
+                                size='large'
+                                onClick={() => props.handleRemovePokemon(value.id)}
+                            >
+                                <Tooltip title='Remover Pokémon'>
+                                    <DeleteIcon fontSize='inherit' />
                                 </Tooltip>
                             </IconButton>
                         </Paper>
@@ -155,7 +160,19 @@ export const TeamList = (props: TeamListComponentProps) => {
                     <Card sx={cardStyle}>
                         <CardHeader
                             title={teamName}
-                            subheader=" Adicionado em September 14, 2016"
+                            subheader=' Adicionado em September 14, 2016'
+                            action={
+                                <IconButton
+                                    aria-label='deletePokemon'
+                                    size='large'
+                                    onClick={() => props.handleRemoveTeam(teamName)}
+                                    sx={{ ml: 'auto' }}
+                                >
+                                    <Tooltip title='Remover Time'>
+                                        <DeleteIcon fontSize='inherit' />
+                                    </Tooltip>
+                                </IconButton>
+                            }
                         />
                         <Grid container spacing={1} alignContent={'center'} alignItems={'center'}>
 
@@ -167,13 +184,13 @@ export const TeamList = (props: TeamListComponentProps) => {
                             {
                                 filterTeamsNulls(teamName).length < 6 &&
                                 <Grid item xs={2} ml={2} >
-                                    <Tooltip title="Adicionar Novo Pokémon">
+                                    <Tooltip title='Adicionar Novo Pokémon'>
                                         <IconButton
-                                            aria-label="addPokemon"
-                                            size="large"
+                                            aria-label='addPokemon'
+                                            size='large'
                                             onClick={() => props.handleChangePokemonDialog(teamName)}
                                         >
-                                            <AddIcon fontSize="inherit" />
+                                            <AddIcon fontSize='inherit' />
                                         </IconButton>
                                     </Tooltip>
                                 </Grid>

@@ -77,7 +77,6 @@ const SkeletonComponent = (data: undefined[]) => (
 )
 
 
-
 const pokemonType = (type: string) => {
     const pokemonTypes = {
         bug: { color: '#7BCF00', icon: <PestControlIcon style={{ color: '#FFFFFF' }} /> },

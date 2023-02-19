@@ -74,14 +74,36 @@ export const getListTeams = async () => {
     return { response, data, error }
 }
 
-export const removePokemon = async (teamId: number) => {
+export const removePokemon = async (teamId: string) => {
 
     let response
     let data: any | null
     let error
 
     try {
-        response = await fetch(`${BASE_URL}/getAllTeams/`)
+        response = await fetch(`${BASE_URL}/removePokemon/${teamId}`,  {
+            method: 'DELETE'
+          })
+        data = await response.json()
+        error = false
+    } catch {
+        data = null
+        error = true
+    }
+
+    return { response, data, error }
+}
+
+export const removeTeam = async (teamName: string) => {
+
+    let response
+    let data: any | null
+    let error
+
+    try {
+        response = await fetch(`${BASE_URL}/removeTeam/${teamName}`,  {
+            method: 'DELETE'
+          })
         data = await response.json()
         error = false
     } catch {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { createPokemon, createTeam, getListTeams, removePokemon } from '../../API/fetchLocalAPI'
+import { createPokemon, createTeam, getListTeams, removePokemon, removeTeam } from '../../API/fetchLocalAPI'
 
 import {
     fetchPokemonList,
@@ -81,7 +81,7 @@ export const PokemonTeamsContainer = (props: PokemonTeamsProps) => {
     }
 
     // Handle Remove
-    const handleRemovePokemon = async (teamId: number): Promise<void> => {
+    const handleRemovePokemon = async (teamId: string): Promise<void> => {
         try {
             (await removePokemon(teamId)).data
             
@@ -92,9 +92,9 @@ export const PokemonTeamsContainer = (props: PokemonTeamsProps) => {
         }
     }
    
-    const handleRemoveTeam = async (teamId: number): Promise<void> => {
+    const handleRemoveTeam = async (teamId: string): Promise<void> => {
         try {
-            (await removePokemon(teamId)).data
+            (await removeTeam(teamId)).data
             
             handleInitialLoading()
             handleCloseTeamDialog()

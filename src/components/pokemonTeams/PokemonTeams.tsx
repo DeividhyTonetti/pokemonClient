@@ -47,8 +47,8 @@ type PokemonTeamsProps = {
     handleAddPokemon: (pokemonId: number | null) => void
     
     // remove
-    handleRemoveTeam: (teamId: number) => void
-    handleRemovePokemon: (teamId: number) => void
+    handleRemoveTeam: (teamName: string) => void
+    handleRemovePokemon: (teamId: string) => void
     
     // close dialog
     handleClosePokemonDialog: () => void
@@ -78,6 +78,8 @@ export const PokemonTeams = (props: PokemonTeamsProps) => {
                     teamList={props.teamList}
                     pokemonDialogOpened={props.pokemonDialogOpened}
                     handleChangePokemonDialog={props.handleChangePokemonDialog}
+                    handleRemovePokemon={props.handleRemovePokemon}
+                    handleRemoveTeam={props.handleRemoveTeam}
                 />
             </Grid>
             <Grid item>
