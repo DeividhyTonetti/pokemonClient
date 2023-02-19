@@ -23,7 +23,7 @@ type tabBarProps = {
     routeLink: string
     searchEnable: boolean
     buttonTeamIsEnabled: boolean
-    handleChangeTeamDialog: () => void
+    handleChangeTeamDialog?: () => void
 }
 
 export const TabBar = (props: tabBarProps) => {

@@ -8,21 +8,53 @@ import {
 // Models
 import { PokemonList } from '../../models/PokemonList'
 import { PokemonColor } from '../../models/PokemonColor';
+import { TeamListProps } from '../../models/TeamList';
 
 // Components
 import { TabBar } from '../tabBar/TabBar';
 import { TeamList } from './teamList/TeamList';
 import { TeamDialogForm } from './teamDialogForm/TeamDialogForm';
+import { PokemonDialogForm } from './pokemonDialogForm/PokemonDialogForm';
+
+//  Styles 
+const gridTeamItemStyle = {
+    marginTop: 10, marginLeft: 2, marginRight: 1, marginBottom: 2
+}
 
 // Prototypes
-type PokemonTeamsProps = {
-    teamDialog: boolean
-    handleChangeTeamDialog: () => void
-    handleAddTeam: () => void
-    handleAddPokemon: () => void
-    handleRemovePokemon: () => void
-    handleRemoveTeam: () => void
+type PokemonListProps = {
+    id?: number
+    name?: string
+    color?: string
+    url?: string
+    imageUrl?: string
+    stats?: any
 }
+
+type PokemonTeamsProps = {
+    teamDialogOpened: boolean
+    pokemonDialogOpened: boolean
+    pokemonName: string | null
+    pokemonList: PokemonListProps[] | null
+    teamList: TeamListProps[] | null
+  
+    // change
+    handleChangeTeamDialog: () => void
+    handleChangePokemonDialog: (teamName: string | null) => void
+    
+    // add
+    handleAddTeam: (teamName: string | null) => void
+    handleAddPokemon: (pokemonId: number | null) => void
+    
+    // remove
+    handleRemoveTeam: (teamId: number) => void
+    handleRemovePokemon: (teamId: number) => void
+    
+    // close dialog
+    handleClosePokemonDialog: () => void
+    handleCloseTeamDialog: () => void
+}
+
 
 export const PokemonTeams = (props: PokemonTeamsProps) => {
 
@@ -41,17 +73,25 @@ export const PokemonTeams = (props: PokemonTeamsProps) => {
                 />
             </Grid>
 
-            <Grid item xs={12} sx={{ marginTop: 10, marginLeft: 2, marginRight: 1, marginBottom: 2 }}>
-                <TeamList />
+            <Grid item xs={12} sx={gridTeamItemStyle}>
+                <TeamList
+                    teamList={props.teamList}
+                    pokemonDialogOpened={props.pokemonDialogOpened}
+                    handleChangePokemonDialog={props.handleChangePokemonDialog}
+                />
             </Grid>
             <Grid item>
                 <TeamDialogForm
-                    teamDialog={props.teamDialog}
+                    teamDialog={props.teamDialogOpened}
                     handleAddTeam={props.handleAddTeam}
-                    handleAddPokemon={props.handleAddPokemon}
                     handleChangeTeamDialog={props.handleChangeTeamDialog}
-                    handleRemovePokemon={props.handleRemovePokemon}
-                    handleRemoveTeam={props.handleRemoveTeam}
+                    handleCloseTeamDialog={props.handleCloseTeamDialog}
+                />
+                <PokemonDialogForm
+                    pokemonDialogOpened={props.pokemonDialogOpened}
+                    pokemonList={props.pokemonList}
+                    handleAddPokemon={props.handleAddPokemon}
+                    handleClosePokemonDialog={props.handleClosePokemonDialog}
                 />
             </Grid>
         </Grid>

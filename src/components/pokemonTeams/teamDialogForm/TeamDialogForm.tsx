@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 // MUI V5
 import {
@@ -13,16 +13,19 @@ import {
 // Prototypes
 type TeamDialogFormProps = {
     teamDialog: boolean
+    handleAddTeam: (teamName: string | null) => void
     handleChangeTeamDialog: () => void
-    handleAddTeam: () => void
-    handleAddPokemon: () => void
-    handleRemovePokemon: () => void
-    handleRemoveTeam: () => void
+    handleCloseTeamDialog: () => void
 }
 
 export const TeamDialogForm = (props: TeamDialogFormProps) => {
-    // const [pokemonInformations, setPokemonInformations] = useState<PokemonListProps | null>(null)
+    const [teamName, setTeamName] = useState<string | null>(null)
 
+    const handleFormCanceled = () => {
+        setTeamName(null)
+      
+        props.handleCloseTeamDialog()
+    }
 
     return (
         <Dialog open={props.teamDialog} fullWidth>
@@ -36,11 +39,12 @@ export const TeamDialogForm = (props: TeamDialogFormProps) => {
                     type="text"
                     fullWidth
                     variant="standard"
+                    onChange={(e) =>  setTeamName(e.target.value)}
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={props.handleChangeTeamDialog}> Cancelar </Button>
-                <Button onClick={() => props.handleChangeTeamDialog()}> Adicionar </Button>
+                <Button onClick={handleFormCanceled}> Cancelar </Button>
+                <Button onClick={() => props.handleAddTeam(teamName)}> Adicionar </Button>
             </DialogActions>
         </Dialog>
     )

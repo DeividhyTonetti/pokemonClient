@@ -1,0 +1,1 @@
+declare module 'convert-css-color-name-to-hex'

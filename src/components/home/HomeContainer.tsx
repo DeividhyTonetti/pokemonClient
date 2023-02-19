@@ -105,7 +105,6 @@ export const HomeContainer = (props: HomeContainerProps) => {
 
 
     return (
-
         <Home
             pokemonList={pokemonList}
             pokemonListIsFeching={isFetching}

@@ -210,7 +210,6 @@ export const PokemonDialogInformations = (props: PokemonDialogInformationsProps)
                         </IconButton>
                     </Grid>
                 
-                    
                     {
                         pokemonInformations?.stats?.map((value: any, key: number) => (
                             <>
@@ -237,17 +236,6 @@ export const PokemonDialogInformations = (props: PokemonDialogInformationsProps)
                 </Grid>
            
             </DialogContent>
-            <DialogActions>
-                <Button
-                    onClick={() => false}
-                    sx={{
-                        marginRight: '2em',
-                        borderRadius: 15
-                    }}
-                > 
-                    Adicionar ao Time 
-                </Button>
-            </DialogActions>
         </Dialog>
     )
 }

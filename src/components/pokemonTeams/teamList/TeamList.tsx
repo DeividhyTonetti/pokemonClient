@@ -1,96 +1,102 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 // MUI V5
 import {
     Avatar,
     Card,
     CardHeader,
-    CardActions,
-    CardActionArea,
-    CardContent,
-    CardMedia,
     Grid,
     IconButton,
     Paper,
     Typography,
 } from '@mui/material'
 
+// Models
+import { TeamListProps } from '../../../models/TeamList'
 
-
-// Prototypes
-type TeamListProps = {
-
-}
-
+// Icons
 import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
 import Tooltip from '@mui/material/Tooltip'
 
-export const TeamList = (props: TeamListProps) => {
-    // const [pokemonInformations, setPokemonInformations] = useState<PokemonListProps | null>(null)
+// Styles
+const cardStyle = {
+    marginTop: '1em',
+    background: 'rgba(255, 255, 255, 0.3)',
+    borderRadius: '16px',
+    boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+    backdropFilter: 'blur(1.1px)',
+    '-webkit-backdrop-filter': 'blur(1.1px)',
+    border: '1px solid rgba(255, 255, 255, 0.3)',
+}
+
+const avatarStyles = {
+    width: 200,
+    height: 200
+}
+
+const paperStyle = {
+    margin: '1em',
+    padding: '1em',
+    maxWidth: '20em',
+    display: "flex",
+    justifyContent: "center",
+    background: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: '16px',
+    boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+    backdropFilter: 'blur(1.1px)',
+    '-webkit-backdrop-filter': 'blur(1.1px)',
+    border: '1px solid rgba(255, 255, 255, 0.3)',
+}
+
+const typographyStyle = {
+    display: "flex",
+    alignItems: "center",
+    marginRight: '5px'
+}
+
+// Prototypes
+type TeamListComponentProps = {
+    teamList: TeamListProps[] | null
+    pokemonDialogOpened: boolean
+    handleChangePokemonDialog: (teamName: string | null) => void
+}
 
 
-    return (
+export const TeamList = (props: TeamListComponentProps) => {
+    const [teamListFormated, setTeamListFormated] = useState<any>([])
 
-        <Card
-            sx={{
-                background: 'rgba(255, 255, 255, 0.3)',
-                borderRadius: '16px',
-                boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-                backdropFilter: 'blur(1.1px)',
-                '-webkit-backdrop-filter': 'blur(1.1px)',
-                border: '1px solid rgba(255, 255, 255, 0.3)',
-            }}
-        >
-
-            <CardHeader
-                title="Time 1"
-                subheader=" Adicionado em September 14, 2016"
-            />
-
-            <Grid container spacing={1}>
+    const CardPokemonComponent = (value: any, key: number) => (
+        <>
+            {
+                value.pokemonId &&
                 <Grid
                     item
                     direction="column"
                     sx={{ margin: 2 }}
                 >
                     <Grid item xs={2}>
-
                         <Avatar
-                            alt="Remy Sharp"
-                            src="https://cdn.esawebb.org/archives/images/screen/weic2216b.jpg"
-                            sx={{ width: 200, height: 200 }}
+                            alt="imagePokemon"
+                            src={value.imageUrl}
+                            sx={avatarStyles}
                         />
 
                     </Grid>
                     <Grid item xs={5}>
                         <Paper
                             elevation={1}
-                            sx={{
-                                margin: '1em',
-                                padding: '1em',
-                                maxWidth: '20em',
-                                display: "flex",
-                                justifyContent: "center",
-                                background: 'rgba(255, 255, 255, 0.1)',
-                                borderRadius: '16px',
-                                boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-                                backdropFilter: 'blur(1.1px)',
-                                '-webkit-backdrop-filter': 'blur(1.1px)',
-                                border: '1px solid rgba(255, 255, 255, 0.3)',
-                            }}
+                            sx={paperStyle}
                         >
                             <Typography
                                 variant='h6'
                                 noWrap
                                 component='div'
-                                sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    marginRight: '5px'
-                                }}
+                                sx={typographyStyle}
                             >
-                                Olá mundo
+
+                                {value.pokemonName}
+
                             </Typography>
                             <IconButton aria-label="delete" size="large" >
                                 <Tooltip title="Remover Pokémon">
@@ -100,16 +106,100 @@ export const TeamList = (props: TeamListProps) => {
                         </Paper>
                     </Grid>
                 </Grid>
+            }
+        </>
+    )
 
-                <Grid item xs={2} sx={{ marginTop: '5em' }}>
-                    <Tooltip title="Adicionar Novo Pokémon">
-                        <IconButton aria-label="addPokemon" size="large" >
-                            <AddIcon fontSize="inherit" />
-                        </IconButton>
-                    </Tooltip>
-                </Grid>
-            </Grid>
-        </Card>
+    const formatTeamList = () => {
+        const formatedList = props?.teamList?.reduce((acc: any, cur: any) => {
+            !acc[cur.teamName] ?
+                acc[cur.teamName] = [{
+                    id: cur.id,
+                    pokemonId: cur.pokemonId,
+                    pokemonName: cur.pokemonName,
+                    createdAt: cur.createdAt,
+                    imageUrl: cur.imageUrl,
+                }] :
+                acc[cur.teamName].push({
+                    id: cur.id,
+                    pokemonId: cur.pokemonId,
+                    pokemonName: cur.pokemonName,
+                    createdAt: cur.createdAt,
+                    imageUrl: cur.imageUrl,
+                })
+
+            return acc
+        }, {})
+
+        return formatedList
+    }
+
+    const handleTeamListChaged = (): void => {
+        const _listFormated = formatTeamList()
+
+        setTeamListFormated(_listFormated)
+    }
+
+    const filterTeamsNulls = (teamName: string) => teamListFormated[teamName].filter((value: any, key: number) => value.pokemonId !== null)
+
+    useEffect(() => {
+        if (props.teamList)
+            handleTeamListChaged()
+    }, [props.teamList])
+
+    return (
+        <>
+            {
+                Object.keys(teamListFormated)?.map((teamName: string) => (
+
+                    <Card sx={cardStyle}>
+                        <CardHeader
+                            title={teamName}
+                            subheader=" Adicionado em September 14, 2016"
+                        />
+                        <Grid container spacing={1} alignContent={'center'} alignItems={'center'}>
+
+                            {
+                                filterTeamsNulls(teamName)
+                                    .map((value: any, key: number) => CardPokemonComponent(value, key))
+                            }
+
+                            {
+                                filterTeamsNulls(teamName).length < 6 &&
+                                <Grid item xs={2} ml={2} >
+                                    <Tooltip title="Adicionar Novo Pokémon">
+                                        <IconButton
+                                            aria-label="addPokemon"
+                                            size="large"
+                                            onClick={() => props.handleChangePokemonDialog(teamName)}
+                                        >
+                                            <AddIcon fontSize="inherit" />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Grid>
+                            }
+                            {
+                                filterTeamsNulls(teamName).length === 0 &&
+                                <Grid item xs={2} ml={0} >
+                                    <Typography
+                                        variant='h6'
+                                        component='div'
+                                    >
+                                        Adicione Pokemóns 😀
+                                    </Typography>
+                                </Grid>
+                            }
+
+
+                        </Grid>
+
+
+                    </Card>
+                ))
+            }
+        </>
+
+
 
 
     )

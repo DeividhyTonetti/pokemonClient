@@ -1,29 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 // MUI V5
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Skeleton from '@mui/material/Skeleton';
+import {
+    Card,
+    CardMedia,
+    Grid,
+    Typography,
+    Skeleton
+} from '@mui/material/';
 
+// External Libs
 import hexRgb from 'hex-rgb';
-import convertCssColorNameToHex from 'convert-css-color-name-to-hex';
-
-// Icons 
-import IconButton from '@mui/material/IconButton';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-
+import * as convertCssColorNameToHex from 'convert-css-color-name-to-hex';
 
 // Models
 import { PokemonList } from '../../../models/PokemonList'
 import { PokemonColor } from '../../../models/PokemonColor';
 import { Button, Chip } from '@mui/material';
 
+// Icons 
+import PestControlIcon from '@mui/icons-material/PestControl';
+import NightsStayIcon from '@mui/icons-material/NightsStay';
+import BoltIcon from '@mui/icons-material/Bolt';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import SportsMmaIcon from '@mui/icons-material/SportsMma';
+import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
+import AirIcon from '@mui/icons-material/Air';
+import PsychologyIcon from '@mui/icons-material/Psychology';
+import SpaIcon from '@mui/icons-material/Spa';
+import VolcanoIcon from '@mui/icons-material/Volcano';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
+import AdjustIcon from '@mui/icons-material/Adjust';
+import CoronavirusIcon from '@mui/icons-material/Coronavirus';
+import LandslideIcon from '@mui/icons-material/Landslide';
+import TsunamiIcon from '@mui/icons-material/Tsunami';
+import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
+
+// Prototypes
 type PokemonListComponentProps = {
     pokemonList: PokemonListProps[] | null
     pokemonListIsFeching: boolean
@@ -46,6 +59,9 @@ type PokemonListProps = {
     imageUrl?: string
 }
 
+// Styles
+
+// Compoents
 const SkeletonComponent = (data: undefined[]) => (
     data?.map((dataItem: undefined, key: number) => (
         <Grid item key={key}>
@@ -61,48 +77,31 @@ const SkeletonComponent = (data: undefined[]) => (
 )
 
 
-import PestControlIcon from '@mui/icons-material/PestControl';
-import NightsStayIcon from '@mui/icons-material/NightsStay';
-import BoltIcon from '@mui/icons-material/Bolt';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import SportsMmaIcon from '@mui/icons-material/SportsMma';
-import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
-import AirIcon from '@mui/icons-material/Air';
-import PsychologyIcon from '@mui/icons-material/Psychology';
-import SpaIcon from '@mui/icons-material/Spa';
-import VolcanoIcon from '@mui/icons-material/Volcano';
-import AcUnitIcon from '@mui/icons-material/AcUnit';
-import AdjustIcon from '@mui/icons-material/Adjust';
-import CoronavirusIcon from '@mui/icons-material/Coronavirus';
-import LandslideIcon from '@mui/icons-material/Landslide';
-import TsunamiIcon from '@mui/icons-material/Tsunami';
-import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
-
 
 const pokemonType = (type: string) => {
-    const pokemonTypes = { 
-        bug: { color: '#7BCF00', icon: <PestControlIcon style={{color: '#FFFFFF' }} />}, 
-        dark: { color: '#5A566A', icon: <NightsStayIcon style={{color: '#FFFFFF' }} />}, 
-        dragon: { color: '#0076FF', icon: ''}, 
-        eletric: { color: '#FFDE00', icon: <BoltIcon  style={{color: '#FFFFFF' }} />}, 
-        fairy: { color: '#FF76FF', icon: <AutoAwesomeIcon  style={{color: '#FFFFFF' }} />}, 
-        fighting: { color: '#FF215B', icon: <SportsMmaIcon  style={{color: '#FFFFFF' }} />}, 
-        fire: { color: '#FF9900', icon: <LocalFireDepartmentIcon  style={{color: '#FFFFFF' }} />}, 
-        flying: { color: '#89BDFF', icon: <AirIcon  style={{color: '#FFFFFF' }} />}, 
-        ghost: { color: '#4E6AFF', icon: ''}, 
-        grass: { color: '#1CD80E', icon: <SpaIcon  style={{color: '#FFFFFF' }} />}, 
-        ground: { color: '#FF6B0D', icon: <VolcanoIcon  style={{color: '#FFFFFF' }} />}, 
-        ice: { color: '#2EE4C6', icon: <AcUnitIcon  style={{color: '#FFFFFF' }} />}, 
-        normal: { color: '#9fa39d', icon: <AdjustIcon  style={{color: '#FFFFFF' }} />}, 
-        poison: { color: '#F149FF', icon: <CoronavirusIcon  style={{color: '#FFFFFF' }} />}, 
-        psychic: { color: '#FF6C64', icon: <PsychologyIcon  style={{color: '#FFFFFF' }} />}, 
-        rock: { color: '#D8BC5A', icon: <LandslideIcon  style={{color: '#FFFFFF' }} />}, 
-        steel: { color: '#23A1BD', icon: <SettingsSuggestIcon  style={{color: '#FFFFFF' }} />}, 
-        water: { color: '#14a8ff', icon: <TsunamiIcon  style={{color: '#FFFFFF' }} />}, 
+    const pokemonTypes = {
+        bug: { color: '#7BCF00', icon: <PestControlIcon style={{ color: '#FFFFFF' }} /> },
+        dark: { color: '#5A566A', icon: <NightsStayIcon style={{ color: '#FFFFFF' }} /> },
+        dragon: { color: '#0076FF', icon: '' },
+        eletric: { color: '#FFDE00', icon: <BoltIcon style={{ color: '#FFFFFF' }} /> },
+        fairy: { color: '#FF76FF', icon: <AutoAwesomeIcon style={{ color: '#FFFFFF' }} /> },
+        fighting: { color: '#FF215B', icon: <SportsMmaIcon style={{ color: '#FFFFFF' }} /> },
+        fire: { color: '#FF9900', icon: <LocalFireDepartmentIcon style={{ color: '#FFFFFF' }} /> },
+        flying: { color: '#89BDFF', icon: <AirIcon style={{ color: '#FFFFFF' }} /> },
+        ghost: { color: '#4E6AFF', icon: '' },
+        grass: { color: '#1CD80E', icon: <SpaIcon style={{ color: '#FFFFFF' }} /> },
+        ground: { color: '#FF6B0D', icon: <VolcanoIcon style={{ color: '#FFFFFF' }} /> },
+        ice: { color: '#2EE4C6', icon: <AcUnitIcon style={{ color: '#FFFFFF' }} /> },
+        normal: { color: '#9fa39d', icon: <AdjustIcon style={{ color: '#FFFFFF' }} /> },
+        poison: { color: '#F149FF', icon: <CoronavirusIcon style={{ color: '#FFFFFF' }} /> },
+        psychic: { color: '#FF6C64', icon: <PsychologyIcon style={{ color: '#FFFFFF' }} /> },
+        rock: { color: '#D8BC5A', icon: <LandslideIcon style={{ color: '#FFFFFF' }} /> },
+        steel: { color: '#23A1BD', icon: <SettingsSuggestIcon style={{ color: '#FFFFFF' }} /> },
+        water: { color: '#14a8ff', icon: <TsunamiIcon style={{ color: '#FFFFFF' }} /> },
     } as any
 
     return pokemonTypes[type]
-} 
+}
 
 const CardListComponent = (data: any, handlePokemonSelected: Function) => {
 
@@ -137,7 +136,7 @@ const CardListComponent = (data: any, handlePokemonSelected: Function) => {
                         webkitBackdropFilter: 'blur(1.5px)',
                     }}>
 
-                    <Grid container sx={{marginTop: 2}} spacing={1}>
+                    <Grid container sx={{ marginTop: 2 }} spacing={1}>
                         <Grid item xs={5}>
                             <CardMedia
                                 component='img'
@@ -152,17 +151,16 @@ const CardListComponent = (data: any, handlePokemonSelected: Function) => {
                             </Typography>
 
                             {
-                                dataItem?.types.map( (value: any) => {
-                                    
-                                    const {color, icon} = pokemonType(value.type.name)    
-                                 
-                                    return  (
-                                    
-                                        <Chip 
-                                            icon={icon} 
-                                            label={pokemonFirstLetterUpperCase(value.type?.name)} 
-                                            sx={{backgroundColor: color, color: '#ffffff'}} 
-                                        /> 
+                                dataItem?.types.map((value: any) => {
+
+                                    const { color, icon } = pokemonType(value.type.name)
+
+                                    return (
+                                        <Chip
+                                            icon={icon}
+                                            label={pokemonFirstLetterUpperCase(value.type?.name)}
+                                            sx={{ backgroundColor: color, color: '#ffffff' }}
+                                        />
                                     )
                                 })
                             }
@@ -173,7 +171,7 @@ const CardListComponent = (data: any, handlePokemonSelected: Function) => {
                     <Button
                         variant="contained"
                         fullWidth
-                        onClick={ () => handlePokemonSelected(dataItem?.id)}
+                        onClick={() => handlePokemonSelected(dataItem?.id)}
                         sx={{
                             padding: 0,
                             borderRadius: '50% 50% 0% 0%',
