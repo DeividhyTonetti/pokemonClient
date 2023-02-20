@@ -1,8 +1,15 @@
+import dotenv from 'dotenv';
+
 import axios, { AxiosRequestConfig } from 'axios'
 import { useState, useEffect } from 'react'
 
+// Load environment variables
+process.env.NODE_ENV === 'production'?
+  dotenv.config({ path: '.env.production' }):
+  dotenv.config({ path: '.env.development' })
+
 const baseAPI = axios.create({
-    baseURL: 'https://pokeapi.co/api/v2'
+    baseURL: process.env.POKE_API
 })
 
 export function useFetch<T = unknown>(url: string, options?: AxiosRequestConfig) {

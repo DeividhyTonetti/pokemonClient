@@ -1,8 +1,11 @@
 import { PokemonColor } from "../models/PokemonColor";
 import { PokemonList } from "../models/PokemonList";
 
+
+const BASE_POKEMON_URL: string =  import.meta.env.VITE_REACT_APP_POKE_API_URL
+
 export const fetchPokemonList = async () => {
-  const URL = `https://pokeapi.co/api/v2/pokemon/`;
+  const URL = `${BASE_POKEMON_URL}/pokemon/`;
 
   let response;
   let data: PokemonList | null;
@@ -21,7 +24,7 @@ export const fetchPokemonList = async () => {
 };
 
 export const fetchPokemonListById = async (pokemonId: number) => {
-  const URL = `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`;
+  const URL = `${BASE_POKEMON_URL}/pokemon/${pokemonId}/`;
 
   let response;
   let data: any | null;
@@ -41,7 +44,7 @@ export const fetchPokemonListById = async (pokemonId: number) => {
 
 
 export const fetchPokemonColor = async (pokemonId: number) => {
-    const URL = `https://pokeapi.co/api/v2/pokemon-species/${pokemonId}/`;
+    const URL = `${BASE_POKEMON_URL}/pokemon-species/${pokemonId}/`;
 
     let response;
     let data: PokemonColor | null;

@@ -1,7 +1,7 @@
-import { PokemonColor } from '../models/PokemonColor'
-import { PokemonList } from '../models/PokemonList'
-
-const BASE_URL = 'http://localhost:3000'
+// Load environment variables
+const BASE_URL: string = import.meta.env.MODE === 'production' ?
+    import.meta.env.VITE_REACT_APP_API_URL_PRODUCTION :
+    import.meta.env.VITE_REACT_APP_API_DEVELOPMENT
 
 export const createTeam = async (values: any) => {
 
@@ -81,9 +81,9 @@ export const removePokemon = async (teamId: string) => {
     let error
 
     try {
-        response = await fetch(`${BASE_URL}/removePokemon/${teamId}`,  {
+        response = await fetch(`${BASE_URL}/removePokemon/${teamId}`, {
             method: 'DELETE'
-          })
+        })
         data = await response.json()
         error = false
     } catch {
@@ -101,9 +101,9 @@ export const removeTeam = async (teamName: string) => {
     let error
 
     try {
-        response = await fetch(`${BASE_URL}/removeTeam/${teamName}`,  {
+        response = await fetch(`${BASE_URL}/removeTeam/${teamName}`, {
             method: 'DELETE'
-          })
+        })
         data = await response.json()
         error = false
     } catch {
