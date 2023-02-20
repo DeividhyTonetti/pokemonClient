@@ -125,7 +125,7 @@ const CardListComponent = (data: any, handlePokemonSelected: Function) => {
                 <Card
                     sx={{
                         maxWidth: 345,
-                        // background: hexRgb(convertCssColorNameToHex(dataItem?.color), { format: 'css', alpha: 0.1 }),
+                        background: hexRgb(convertCssColorNameToHex(dataItem?.color), { format: 'css', alpha: 0.1 }),
                         fontWeight: 900,
                         fontSize: '20px',
                         color: dataItem?.color === 'white' || dataItem?.color === 'yellow' ? '#000000' : '#ffffff',
