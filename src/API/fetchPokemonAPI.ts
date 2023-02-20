@@ -1,5 +1,5 @@
 import { PokemonColor } from "../models/PokemonColor";
-import { PokemonList } from "../models/PokemonList";
+import { PokemonData } from "../models/PokemonData";
 
 
 const BASE_POKEMON_URL: string =  import.meta.env.VITE_REACT_APP_POKE_API_URL
@@ -8,7 +8,7 @@ export const fetchPokemonList = async () => {
   const URL = `${BASE_POKEMON_URL}/pokemon/`;
 
   let response;
-  let data: PokemonList | null;
+  let data: PokemonData | null;
   let error;
 
   try {

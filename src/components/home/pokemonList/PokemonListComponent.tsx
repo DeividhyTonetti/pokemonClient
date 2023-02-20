@@ -6,16 +6,16 @@ import {
     CardMedia,
     Grid,
     Typography,
-    Skeleton
+    Skeleton, 
 } from '@mui/material/';
+
+import { SvgIconProps } from '@mui/material';
 
 // External Libs
 import hexRgb from 'hex-rgb';
 import * as convert from 'color-convert';
 
 // Models
-import { PokemonList } from '../../../models/PokemonList'
-import { PokemonColor } from '../../../models/PokemonColor';
 import { Button, Chip } from '@mui/material';
 
 // Icons 
@@ -35,7 +35,6 @@ import CoronavirusIcon from '@mui/icons-material/Coronavirus';
 import LandslideIcon from '@mui/icons-material/Landslide';
 import TsunamiIcon from '@mui/icons-material/Tsunami';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
-import { hex } from 'color-convert/route';
 
 // Prototypes
 type PokemonListComponentProps = {
@@ -52,6 +51,11 @@ type PokemonProps = {
     types: any
 }
 
+type PokemonType = {
+    color: string
+    icon: SvgIconProps
+}
+
 type PokemonListProps = {
     id?: number
     name?: string
@@ -61,13 +65,21 @@ type PokemonListProps = {
 }
 
 // Styles
+const skeletonStyles = { bgcolor: 'grey.400' }
+const iconsColorStyles = { color: '#FFFFFF' }
+const buttonStyles = {
+    padding: 0,
+    borderRadius: '50% 50% 0% 0%',
+    flexWrap: 'nowrap',
+    flexDirection: 'row',
+}
 
 // Compoents
 const SkeletonComponent = (data: undefined[]) => (
     data?.map((dataItem: undefined, key: number) => (
         <Grid item key={key}>
             <Skeleton
-                sx={{ bgcolor: 'grey.400' }}
+                sx={skeletonStyles}
                 variant='rectangular'
                 width={210}
                 height={118}
@@ -77,30 +89,29 @@ const SkeletonComponent = (data: undefined[]) => (
     ))
 )
 
+const pokemonType = (type: string): PokemonType => {
+    const pokemonTypes: { [key: string]: any }  = {
+        bug: { color: '#7BCF00', icon: <PestControlIcon style={iconsColorStyles} /> },
+        dark: { color: '#5A566A', icon: <NightsStayIcon style={iconsColorStyles} /> },
+        dragon: { color: '#0076FF', icon: <NightsStayIcon style={iconsColorStyles} /> },
+        eletric: { color: '#FFDE00', icon: <BoltIcon style={iconsColorStyles} /> },
+        fairy: { color: '#FF76FF', icon: <AutoAwesomeIcon style={iconsColorStyles} /> },
+        fighting: { color: '#FF215B', icon: <SportsMmaIcon style={iconsColorStyles} /> },
+        fire: { color: '#FF9900', icon: <LocalFireDepartmentIcon style={iconsColorStyles} /> },
+        flying: { color: '#89BDFF', icon: <AirIcon style={iconsColorStyles} /> },
+        ghost: { color: '#4E6AFF', icon: <NightsStayIcon style={iconsColorStyles} /> },
+        grass: { color: '#1CD80E', icon: <SpaIcon style={iconsColorStyles} /> },
+        ground: { color: '#FF6B0D', icon: <VolcanoIcon style={iconsColorStyles} /> },
+        ice: { color: '#2EE4C6', icon: <AcUnitIcon style={iconsColorStyles} /> },
+        normal: { color: '#9fa39d', icon: <AdjustIcon style={iconsColorStyles} /> },
+        poison: { color: '#F149FF', icon: <CoronavirusIcon style={iconsColorStyles} /> },
+        psychic: { color: '#FF6C64', icon: <PsychologyIcon style={iconsColorStyles} /> },
+        rock: { color: '#D8BC5A', icon: <LandslideIcon style={iconsColorStyles} /> },
+        steel: { color: '#23A1BD', icon: <SettingsSuggestIcon style={iconsColorStyles} /> },
+        water: { color: '#14a8ff', icon: <TsunamiIcon style={iconsColorStyles} /> },
+    } 
 
-const pokemonType = (type: string) => {
-    const pokemonTypes = {
-        bug: { color: '#7BCF00', icon: <PestControlIcon style={{ color: '#FFFFFF' }} /> },
-        dark: { color: '#5A566A', icon: <NightsStayIcon style={{ color: '#FFFFFF' }} /> },
-        dragon: { color: '#0076FF', icon: '' },
-        eletric: { color: '#FFDE00', icon: <BoltIcon style={{ color: '#FFFFFF' }} /> },
-        fairy: { color: '#FF76FF', icon: <AutoAwesomeIcon style={{ color: '#FFFFFF' }} /> },
-        fighting: { color: '#FF215B', icon: <SportsMmaIcon style={{ color: '#FFFFFF' }} /> },
-        fire: { color: '#FF9900', icon: <LocalFireDepartmentIcon style={{ color: '#FFFFFF' }} /> },
-        flying: { color: '#89BDFF', icon: <AirIcon style={{ color: '#FFFFFF' }} /> },
-        ghost: { color: '#4E6AFF', icon: '' },
-        grass: { color: '#1CD80E', icon: <SpaIcon style={{ color: '#FFFFFF' }} /> },
-        ground: { color: '#FF6B0D', icon: <VolcanoIcon style={{ color: '#FFFFFF' }} /> },
-        ice: { color: '#2EE4C6', icon: <AcUnitIcon style={{ color: '#FFFFFF' }} /> },
-        normal: { color: '#9fa39d', icon: <AdjustIcon style={{ color: '#FFFFFF' }} /> },
-        poison: { color: '#F149FF', icon: <CoronavirusIcon style={{ color: '#FFFFFF' }} /> },
-        psychic: { color: '#FF6C64', icon: <PsychologyIcon style={{ color: '#FFFFFF' }} /> },
-        rock: { color: '#D8BC5A', icon: <LandslideIcon style={{ color: '#FFFFFF' }} /> },
-        steel: { color: '#23A1BD', icon: <SettingsSuggestIcon style={{ color: '#FFFFFF' }} /> },
-        water: { color: '#14a8ff', icon: <TsunamiIcon style={{ color: '#FFFFFF' }} /> },
-    } as any
-
-    return pokemonTypes[type]
+    return pokemonTypes[type] as PokemonType
 }
 
 const CardListComponent = (data: any, handlePokemonSelected: Function) => {
@@ -114,7 +125,7 @@ const CardListComponent = (data: any, handlePokemonSelected: Function) => {
         return `${baseUrlPokemonImage}${CurrentIdPokemon}.png`
     }
 
-    const pokemonFirstLetterUpperCase = (pokemonName: string) => {
+    const pokemonFirstLetterUpperCase = (pokemonName: string): string => {
         const firstLetterUpperCase = pokemonName.replace(/^./, pokemonName[0].toUpperCase());
 
         return firstLetterUpperCase;
@@ -164,7 +175,7 @@ const CardListComponent = (data: any, handlePokemonSelected: Function) => {
 
                                     return (
                                         <Chip
-                                            icon={icon}
+                                            icon={icon as any}
                                             label={pokemonFirstLetterUpperCase(value.type?.name)}
                                             sx={{ backgroundColor: color, color: '#ffffff' }}
                                         />
@@ -179,12 +190,7 @@ const CardListComponent = (data: any, handlePokemonSelected: Function) => {
                         variant="contained"
                         fullWidth
                         onClick={() => handlePokemonSelected(dataItem?.id)}
-                        sx={{
-                            padding: 0,
-                            borderRadius: '50% 50% 0% 0%',
-                            flexWrap: 'nowrap',
-                            flexDirection: 'row',
-                        }}
+                        sx={buttonStyles}
                     > Mais Detalhes
                     </Button>
 

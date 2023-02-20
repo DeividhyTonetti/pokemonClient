@@ -6,29 +6,26 @@ import {
 } from '@mui/material';
 
 // Models
-import { PokemonList } from '../../models/PokemonList'
-import { PokemonColor } from '../../models/PokemonColor';
+import { PokemonList } from '../../models/PokemonList';
 
 // Component
 import { PokemonDialogInformations } from './pokemonDialogInformations/PokemonDialogInformations';
 import { PokemonListComponent } from './pokemonList/PokemonListComponent'
 import { TabBar } from '../tabBar/TabBar';
 
-// Prototypes
-type PokemonListProps = {
-  id?: number
-  name?: string
-  color?: string
-  url?: string
-  imageUrl?: string
-  stats?: any
+// Styles
+const gridItemStyles = { 
+  marginTop: 10, 
+  marginLeft: 2,
+  marginRight: 1,
+  marginBottom: 2 
 }
 
+// Prototypes
 type HomeProps = {
-  pokemonList: PokemonListProps[] | null
+  pokemonList: PokemonList[] | null
   pokemonListIsFeching: boolean
 }
-
 
 export const Home = (props: HomeProps) => {
   const [pokemonSelected, setPokemonSelected] = useState<number | null>(null)
@@ -50,7 +47,7 @@ export const Home = (props: HomeProps) => {
         />
       </Grid>
 
-      <Grid item xs={12} sx={{ marginTop: 10, marginLeft: 2, marginRight: 1, marginBottom: 2 }}>
+      <Grid item xs={12} sx={gridItemStyles}>
         <PokemonListComponent
           pokemonList={props.pokemonList}
           pokemonListIsFeching={props.pokemonListIsFeching}

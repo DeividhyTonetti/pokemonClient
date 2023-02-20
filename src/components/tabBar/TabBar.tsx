@@ -17,6 +17,35 @@ import pokemonLogo from '../../assets/pokemon.svg'
 // Components
 import { PokemonSearch } from './pokemonSearch/PokemonSearch';
 
+// Styles
+const typographyStyles = { 
+    flexGrow: 1, 
+    display: { 
+        xs: 'none', 
+        sm: 'block' 
+    } 
+}
+
+const imageLogoStyles = { 
+    marginLeft: 5, 
+    margin: '-1em' 
+}
+
+const buttonAddStyles = { 
+    borderRadius: 15, 
+    marginRight: '1em', 
+    backgroundColor: '#14A8FF'
+}
+
+const buttonLinkStyles = { 
+    borderRadius: 15
+}
+
+const linStyles = { 
+    textDecoration: 'none',
+     color: '#FFFFFF' 
+}
+
 // Protorypes
 type tabBarProps = {
     routeName: string
@@ -35,28 +64,24 @@ export const TabBar = (props: tabBarProps) => {
                     variant='h6'
                     noWrap
                     component='div'
-                    sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                    sx={typographyStyles}
                 >
-                    <img src={pokemonLogo} alt='Logo' height={110} width={150} style={{ marginLeft: 5, margin: '-1em' }} />
+                    <img src={pokemonLogo} alt='Logo' height={110} width={150} style={imageLogoStyles} />
                 </Typography>
 
                 {
                     props.buttonTeamIsEnabled &&
                     <Button 
                         variant='contained' 
-                        sx={{ 
-                            borderRadius: 15, 
-                            marginRight: '1em', 
-                            backgroundColor: '#14A8FF'
-                        }}
+                        sx={buttonAddStyles}
                         onClick={props.handleChangeTeamDialog}
                     >
                         Adicionar Time
                     </Button>
                 }
 
-                <Button color='secondary' variant='contained' sx={{ borderRadius: 15 }}>
-                    <Link style={{ textDecoration: 'none', color: '#FFFFFF' }} to={props?.routeLink}> { props?.routeName } </Link>
+                <Button color='secondary' variant='contained' sx={buttonLinkStyles}>
+                    <Link style={linStyles} to={props?.routeLink}> { props?.routeName } </Link>
                 </Button>
                 {
                     props.searchEnable &&

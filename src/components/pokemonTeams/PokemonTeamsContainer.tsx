@@ -6,7 +6,7 @@ import {
     fetchPokemonListById,
     fetchPokemonColor
 } from '../../API/fetchPokemonAPI'
-import { PokemonList } from '../../models/PokemonList'
+import { PokemonList } from '../../models/PokemonData'
 
 import { TeamListProps } from '../../models/TeamList'
 

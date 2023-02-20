@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 
 // Models
-import { PokemonList } from '../../models/PokemonList'
+import { PokemonList } from '../../models/PokemonData'
 import { PokemonColor } from '../../models/PokemonColor';
 import { TeamListProps } from '../../models/TeamList';
 

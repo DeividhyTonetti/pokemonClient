@@ -1,19 +1,19 @@
 import {
-    createBrowserRouter,
-    RouterProvider,
-} from "react-router-dom";
+    createBrowserRouter
+} from 'react-router-dom'
 
 // Components
-import { HomeContainer } from "../components/home/HomeContainer";
-import { PokemonTeamsContainer } from "../components/pokemonTeams/PokemonTeamsContainer";
+import { HomeContainer } from '../components/home/HomeContainer'
+import { PokemonTeamsContainer } from '../components/pokemonTeams/PokemonTeamsContainer'
 
+// Create Routes
 export const router = createBrowserRouter([
     {
-        path: "/",
+        path: '/',
         element: <HomeContainer />,
     },
     {
-        path: "/teams",
+        path: '/teams',
         element: <PokemonTeamsContainer />,
     },
-]);
+])

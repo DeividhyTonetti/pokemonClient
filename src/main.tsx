@@ -2,9 +2,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
-// Components
-import { HomeContainer } from './components/home/HomeContainer'
-
 // Styles MUI V5
 import { ThemeProvider } from '@mui/material'
 import { LightTheme } from './themes/light'
@@ -17,7 +14,6 @@ import {
 
 //  Routes 
 import { router } from './Routes/routes' 
-
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
