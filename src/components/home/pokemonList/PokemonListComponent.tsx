@@ -12,6 +12,7 @@ import {
 // External Libs
 import hexRgb, { RgbaObject } from 'hex-rgb';
 import * as convertCssColorNameToHex from 'convert-css-color-name-to-hex';
+import * as convert from 'color-convert';
 
 // Models
 import { PokemonList } from '../../../models/PokemonList'
@@ -35,6 +36,7 @@ import CoronavirusIcon from '@mui/icons-material/Coronavirus';
 import LandslideIcon from '@mui/icons-material/Landslide';
 import TsunamiIcon from '@mui/icons-material/Tsunami';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
+import { hex } from 'color-convert/route';
 
 // Prototypes
 type PokemonListComponentProps = {
@@ -119,11 +121,9 @@ const CardListComponent = (data: any, handlePokemonSelected: Function) => {
         return firstLetterUpperCase;
     }
 
-    const formatCardsBackgroundColors = (color: string): string => {
-        const convertColorNameToHex: string = convertCssColorNameToHex(color || 'white')
-        console.log('CONVERTECOLOR: ', convertColorNameToHex)
+    const formatCardsBackgroundColors = (color: any): string => {
+        const convertColorNameToHex: string = convert.keyword.hex(color)
         const convertColorHexToRGB: string = hexRgb(convertColorNameToHex, { format: 'css', alpha: 0.1 })
-        console.log('convertColorHexToRGB: ', convertColorHexToRGB)
 
         return convertColorHexToRGB
     }
