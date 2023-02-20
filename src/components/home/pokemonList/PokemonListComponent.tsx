@@ -10,7 +10,7 @@ import {
 } from '@mui/material/';
 
 // External Libs
-import hexRgb from 'hex-rgb';
+import hexRgb, { RgbaObject } from 'hex-rgb';
 import * as convertCssColorNameToHex from 'convert-css-color-name-to-hex';
 
 // Models
@@ -119,13 +119,20 @@ const CardListComponent = (data: any, handlePokemonSelected: Function) => {
         return firstLetterUpperCase;
     }
 
+    const formatCardsBackgroundColors = (color: string): string => {
+        const convertColorNameToHex: string = convertCssColorNameToHex(color || 'white')
+        const convertColorHexToRGB: string = hexRgb(convertColorNameToHex, { format: 'css', alpha: 0.1 })
+
+        return convertColorHexToRGB
+    }
+
     return (
         data?.map((dataItem: PokemonProps, key: number) => (
             <Grid item xs={2} key={key}>
                 <Card
                     sx={{
                         maxWidth: 345,
-                        background: hexRgb(convertCssColorNameToHex(dataItem?.color) || '', { format: 'css', alpha: 0.1 }),
+                        background: formatCardsBackgroundColors(dataItem?.color),
                         fontWeight: 900,
                         fontSize: '20px',
                         color: dataItem?.color === 'white' || dataItem?.color === 'yellow' ? '#000000' : '#ffffff',
