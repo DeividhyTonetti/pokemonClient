@@ -21,7 +21,7 @@ type TeamDialogFormProps = {
 export const TeamDialogForm = (props: TeamDialogFormProps) => {
     const [teamName, setTeamName] = useState<string | null>(null)
 
-    const handleFormCanceled = () => {
+    const handleFormCanceled = (): void => {
         setTeamName(null)
       
         props.handleCloseTeamDialog()

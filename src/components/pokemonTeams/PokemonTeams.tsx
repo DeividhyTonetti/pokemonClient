@@ -6,9 +6,9 @@ import {
 } from '@mui/material';
 
 // Models
-import { PokemonList } from '../../models/PokemonData'
 import { PokemonColor } from '../../models/PokemonColor';
 import { TeamListProps } from '../../models/TeamList';
+import { PokemonList } from '../../models/PokemonList';
 
 // Components
 import { TabBar } from '../tabBar/TabBar';
@@ -22,21 +22,12 @@ const gridTeamItemStyle = {
 }
 
 // Prototypes
-type PokemonListProps = {
-    id?: number
-    name?: string
-    color?: string
-    url?: string
-    imageUrl?: string
-    stats?: any
-}
-
 type PokemonTeamsProps = {
     teamDialogOpened: boolean
     pokemonDialogOpened: boolean
     pokemonName: string | null
-    pokemonList: PokemonListProps[] | null
-    teamList: TeamListProps[] | null
+    pokemonList:PokemonList[] | null
+    teamList: PokemonList[] | null
   
     // change
     handleChangeTeamDialog: () => void

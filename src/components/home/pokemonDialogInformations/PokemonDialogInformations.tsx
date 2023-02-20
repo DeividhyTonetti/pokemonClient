@@ -41,12 +41,21 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme, value }) => ({
     },
 }));
 
-
 // Models
-import { PokemonList } from '../../../models/PokemonData'
-import { PokemonColor } from '../../../models/PokemonColor';
-import zIndex from '@mui/material/styles/zIndex';
-import { Box } from '@mui/system';
+import { PokemonList } from '../../../models/PokemonList';
+
+// Styles
+const paperDialogStyle = {
+    sx: {
+        overflow: "visible",
+        background: 'rgba( 255, 255, 255, 0.3 )',
+        boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
+        backdropFilter: 'blur( 4px )',
+        borderRadius: 15,
+        border: '1px solid rgba( 255, 255, 255, 0.18 )',
+        paddingTop: '3em'
+    },
+}
 
 type PokemonListProps = {
     id?: number
@@ -58,7 +67,7 @@ type PokemonListProps = {
     types?: any
 }
 
-
+// Prototypes
 type PokemonDialogInformationsProps = {
     pokemonId: number | null
     pokemonList: PokemonListProps[] | null
@@ -110,15 +119,15 @@ const pokemonType = (type: string) => {
 export const PokemonDialogInformations = (props: PokemonDialogInformationsProps) => {
     const [pokemonInformations, setPokemonInformations] = useState<PokemonListProps | null>(null)
 
-    const findPokemonInListById = (pokemonId: number): any => props?.pokemonList?.find((item) => item.id === pokemonId) || null
+    const findPokemonInListById = (pokemonId: number): PokemonList => props?.pokemonList?.find((item) => item.id === pokemonId) || {}
 
-    const handlePokemonIdChaged = (pokemonId: number) => {
+    const handlePokemonIdChaged = (pokemonId: number): void => {
         const pokemonFiltered: PokemonListProps = findPokemonInListById(pokemonId)
 
         setPokemonInformations(pokemonFiltered)
     }
 
-    const pokemonFirstLetterUpperCase = (pokemonName: string) => {
+    const pokemonFirstLetterUpperCase = (pokemonName: string): string => {
         const firstLetterUpperCase = pokemonName?.replace(/^./, pokemonName[0].toUpperCase());
 
         return firstLetterUpperCase;
@@ -147,20 +156,8 @@ export const PokemonDialogInformations = (props: PokemonDialogInformationsProps)
             fullWidth
             onClose={() => false}
             aria-describedby="alert-dialog-slide-description"
-            PaperProps={{
-                sx: {
-                    overflow: "visible",
-                    background: 'rgba( 255, 255, 255, 0.3 )',
-                    boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
-                    backdropFilter: 'blur( 4px )',
-                    borderRadius: 15,
-                    border: '1px solid rgba( 255, 255, 255, 0.18 )',
-                    paddingTop: '3em'
-                },
-            }}
-            sx={{
-                backdropFilter: 'blur( 4px )',
-            }}
+            PaperProps={paperDialogStyle}
+            sx={{ backdropFilter: 'blur( 4px )' }}
         >
 
             <img

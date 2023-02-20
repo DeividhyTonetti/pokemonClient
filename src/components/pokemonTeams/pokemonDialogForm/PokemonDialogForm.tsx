@@ -16,9 +16,6 @@ import {
 
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-// import ScaleIcon from '@mui/icons-material/Scale';
-// import SquareFootIcon from '@mui/icons-material/SquareFoot';
-
 // Prototypes
 type PokemonListProps = {
     id?: number
@@ -32,12 +29,8 @@ type PokemonListProps = {
 type PokemonDialogFormProps = {
     pokemonDialogOpened: boolean
     pokemonList: PokemonListProps[] | null
-    // handleChangeTeamDialog: () => void
-    // handleAddTeam: (teamName: string | null) => void
     handleAddPokemon: (pokemonId: number | null) => void
     handleClosePokemonDialog: () => void
-    // handleRemovePokemon: () => void
-    // handleRemoveTeam: () => void
 }
 
 export const PokemonDialogForm = (props: PokemonDialogFormProps) => {
@@ -60,10 +53,10 @@ export const PokemonDialogForm = (props: PokemonDialogFormProps) => {
         props.handleAddPokemon(Number(pokemonSelected))
     }
 
-    const findPokemonInformation = (pokemonSelected: number): PokemonListProps | undefined  => props.pokemonList?.find( pokemon => pokemon.id === pokemonSelected )
+    const findPokemonInformation = (pokemonSelected: number): PokemonListProps | undefined => props.pokemonList?.find(pokemon => pokemon.id === pokemonSelected)
 
-    useEffect( () => {
-        if(pokemonSelected) {
+    useEffect(() => {
+        if (pokemonSelected) {
             const _pokemonInformation = findPokemonInformation(Number(pokemonSelected))
 
             setPokemonInformation(_pokemonInformation)
@@ -83,13 +76,12 @@ export const PokemonDialogForm = (props: PokemonDialogFormProps) => {
                                 id="demo-simple-select-helper"
                                 value={pokemonSelected || ''}
                                 label="Pokémon"
-                                // fullWidth
                                 onChange={handleChange}
                             >
                                 {
                                     props?.pokemonList?.map((pokemon) => (
                                         <MenuItem value={pokemon.id}>
-                                            { pokemon.name }
+                                            {pokemon.name}
                                         </MenuItem>
                                     ))
                                 }
@@ -100,23 +92,21 @@ export const PokemonDialogForm = (props: PokemonDialogFormProps) => {
 
                     {
                         pokemonInformation &&
-                            <Grid item xs={5} sx={{height: 150,}}>
-                                <Avatar
-                                    alt="Remy Sharp"
-                                    variant="square"
-                                    src={pokemonInformation.imageUrl}
-                                    sx={{
-                                        width: 100, height: 100,
-                                       
-                                    }}
-                                />
-                                {/* <SquareFootIcon fontSize="large" />
-                                <ScaleIcon fontSize="large" /> */}
-                            </Grid>
+                        <Grid item xs={5} sx={{ height: 150, }}>
+                            <Avatar
+                                alt="Remy Sharp"
+                                variant="square"
+                                src={pokemonInformation.imageUrl}
+                                sx={{
+                                    width: 100, height: 100,
+
+                                }}
+                            />
+                        </Grid>
                     }
                 </Grid>
             </DialogContent>
-            <DialogActions sx={{marginTop: '-2em'}}>
+            <DialogActions sx={{ marginTop: '-2em' }}>
                 <Button onClick={handleFormCanceled}> Cancelar </Button>
                 <Button onClick={handlePokemonFormAdd}> Adicionar </Button>
             </DialogActions>

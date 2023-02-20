@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, FC, ReactElement, Fragment } from 'react'
 
 // MUI V5
 import {
@@ -13,6 +13,7 @@ import {
 
 // Models
 import { TeamListProps } from '../../../models/TeamList'
+import { PokemonList } from '../../../models/PokemonList'
 
 // Icons
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -56,22 +57,34 @@ const typographyStyle = {
 }
 
 // Prototypes
+
+type TeamsProps = {
+    id: string
+    createdAt: string
+    imageUrl: string
+    pokemonId: number
+    pokemonName: string
+}
+
+type TeamListFormated = {
+    [key: string]: any
+}
+
 type TeamListComponentProps = {
-    teamList: TeamListProps[] | null
+    teamList: PokemonList[] | null
     pokemonDialogOpened: boolean
     handleChangePokemonDialog: (teamName: string | null) => void
     handleRemovePokemon: (teamId: string) => void
     handleRemoveTeam: (teamName: string) => void
 }
 
-
 export const TeamList = (props: TeamListComponentProps) => {
-    const [teamListFormated, setTeamListFormated] = useState<any>([])
+    const [teamListFormated, setTeamListFormated] = useState<TeamListFormated[]>([])
 
-    const CardPokemonComponent = (value: any, key: number) => (
-        <>
+    const CardPokemonComponent: FC<TeamsProps> = (team: TeamsProps): ReactElement => (
+        <Fragment>
             {
-                value.pokemonId &&
+                team.pokemonId &&
                 <Grid
                     item
                     direction='column'
@@ -80,7 +93,7 @@ export const TeamList = (props: TeamListComponentProps) => {
                     <Grid item xs={2}>
                         <Avatar
                             alt='imagePokemon'
-                            src={value.imageUrl}
+                            src={team.imageUrl}
                             sx={avatarStyles}
                         />
                     </Grid>
@@ -96,13 +109,13 @@ export const TeamList = (props: TeamListComponentProps) => {
                                 sx={typographyStyle}
                             >
 
-                                {value.pokemonName}
+                                {team.pokemonName}
 
                             </Typography>
                             <IconButton
                                 aria-label='deletePokemon'
                                 size='large'
-                                onClick={() => props.handleRemovePokemon(value.id)}
+                                onClick={() => props.handleRemovePokemon(team.id)}
                             >
                                 <Tooltip title='Remover Pokémon'>
                                     <DeleteIcon fontSize='inherit' />
@@ -112,10 +125,10 @@ export const TeamList = (props: TeamListComponentProps) => {
                     </Grid>
                 </Grid>
             }
-        </>
+        </Fragment>
     )
 
-    const formatTeamList = () => {
+    const formatTeamList = (): TeamListFormated[] => {
         const formatedList = props?.teamList?.reduce((acc: any, cur: any) => {
             !acc[cur.teamName] ?
                 acc[cur.teamName] = [{
@@ -140,13 +153,14 @@ export const TeamList = (props: TeamListComponentProps) => {
     }
 
     const handleTeamListChaged = (): void => {
-        const _listFormated = formatTeamList()
+        const _listFormated: TeamListFormated[] = formatTeamList()
 
         setTeamListFormated(_listFormated)
     }
 
-    const filterTeamsNulls = (teamName: string) => teamListFormated[teamName].filter((value: any, key: number) => value.pokemonId !== null)
+    const filterTeamsNulls = (teamName: string): TeamsProps[] => teamListFormated[teamName as any]?.filter((value: any) => value.pokemonId !== null) as any
 
+    
     useEffect(() => {
         if (props.teamList)
             handleTeamListChaged()
@@ -178,7 +192,7 @@ export const TeamList = (props: TeamListComponentProps) => {
 
                             {
                                 filterTeamsNulls(teamName)
-                                    .map((value: any, key: number) => CardPokemonComponent(value, key))
+                                    .map((team: TeamsProps, key: number) => CardPokemonComponent(team))
                             }
 
                             {
@@ -206,18 +220,10 @@ export const TeamList = (props: TeamListComponentProps) => {
                                     </Typography>
                                 </Grid>
                             }
-
-
                         </Grid>
-
-
                     </Card>
                 ))
             }
         </>
-
-
-
-
     )
 }

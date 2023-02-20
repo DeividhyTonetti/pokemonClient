@@ -221,5 +221,4 @@ export const PokemonListComponent = (props: PokemonListComponentProps) => {
         </Grid>
     )
 
-
 }
