@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { Component, FC, Fragment, ReactElement } from 'react';
 
 // MUI V5
 import {
+    Button,
     Card,
     CardMedia,
+    Chip,
     Grid,
     Typography,
-    Skeleton, 
+    Skeleton,
 } from '@mui/material/';
 
 import { SvgIconProps } from '@mui/material';
@@ -16,7 +18,7 @@ import hexRgb from 'hex-rgb';
 import * as convert from 'color-convert';
 
 // Models
-import { Button, Chip } from '@mui/material';
+import { PokemonList } from '../../../models/PokemonList';
 
 // Icons 
 import PestControlIcon from '@mui/icons-material/PestControl';
@@ -38,17 +40,9 @@ import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 
 // Prototypes
 type PokemonListComponentProps = {
-    pokemonList: PokemonListProps[] | null
+    pokemonList: PokemonList[] | null
     pokemonListIsFeching: boolean
     handlePokemonSelected: (pokemonId: number) => void
-}
-
-type PokemonProps = {
-    id?: number
-    name: string
-    url: string
-    color: string
-    types: any
 }
 
 type PokemonType = {
@@ -56,13 +50,6 @@ type PokemonType = {
     icon: SvgIconProps
 }
 
-type PokemonListProps = {
-    id?: number
-    name?: string
-    color?: string
-    url?: string
-    imageUrl?: string
-}
 
 // Styles
 const skeletonStyles = { bgcolor: 'grey.400' }
@@ -75,22 +62,26 @@ const buttonStyles = {
 }
 
 // Compoents
-const SkeletonComponent = (data: undefined[]) => (
-    data?.map((dataItem: undefined, key: number) => (
-        <Grid item key={key}>
-            <Skeleton
-                sx={skeletonStyles}
-                variant='rectangular'
-                width={210}
-                height={118}
-                animation='wave'
-            />
-        </Grid>
-    ))
+const SkeletonComponent: FC<undefined[]> = (data: undefined[]): ReactElement => (
+    <Fragment>
+        {
+            data?.map((dataItem: undefined, key: number) => (
+                <Grid item key={key}>
+                    <Skeleton
+                        sx={skeletonStyles}
+                        variant='rectangular'
+                        width={210}
+                        height={118}
+                        animation='wave'
+                    />
+                </Grid>
+            ))
+        }
+    </Fragment>
 )
 
 const pokemonType = (type: string): PokemonType => {
-    const pokemonTypes: { [key: string]: any }  = {
+    const pokemonTypes: { [key: string]: any } = {
         bug: { color: '#7BCF00', icon: <PestControlIcon style={iconsColorStyles} /> },
         dark: { color: '#5A566A', icon: <NightsStayIcon style={iconsColorStyles} /> },
         dragon: { color: '#0076FF', icon: <NightsStayIcon style={iconsColorStyles} /> },
@@ -109,12 +100,12 @@ const pokemonType = (type: string): PokemonType => {
         rock: { color: '#D8BC5A', icon: <LandslideIcon style={iconsColorStyles} /> },
         steel: { color: '#23A1BD', icon: <SettingsSuggestIcon style={iconsColorStyles} /> },
         water: { color: '#14a8ff', icon: <TsunamiIcon style={iconsColorStyles} /> },
-    } 
+    }
 
     return pokemonTypes[type] as PokemonType
 }
 
-const CardListComponent = (data: any, handlePokemonSelected: Function) => {
+const CardListComponent: FC<any> = (pokemonList: PokemonList[] | null, handlePokemonSelected: Function): ReactElement => {
 
     const getPokemonImageUrl = (url: string): string => {
         const baseUrlPokemonImage: string = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/'
@@ -139,65 +130,69 @@ const CardListComponent = (data: any, handlePokemonSelected: Function) => {
     }
 
     return (
-        data?.map((dataItem: PokemonProps, key: number) => (
-            <Grid item xs={2} key={key}>
-                <Card
-                    sx={{
-                        maxWidth: 345,
-                        background: formatCardsBackgroundColors(dataItem?.color),
-                        fontWeight: 900,
-                        fontSize: '20px',
-                        color: dataItem?.color === 'white' || dataItem?.color === 'yellow' ? '#000000' : '#ffffff',
-                        borderRadius: '16px',
-                        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-                        backdropFilter: 'blur(1.5px)',
-                        webkitBackdropFilter: 'blur(1.5px)',
-                    }}>
+        <Fragment>
+            {
+                pokemonList?.map((pokemon: PokemonList, key: number) => (
+                    <Grid item xs={2} key={key}>
+                        <Card
+                            sx={{
+                                maxWidth: 345,
+                                background: formatCardsBackgroundColors(pokemon?.color),
+                                fontWeight: 900,
+                                fontSize: '20px',
+                                color: pokemon?.color === 'white' || pokemon?.color === 'yellow' ? '#000000' : '#ffffff',
+                                borderRadius: '16px',
+                                boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+                                backdropFilter: 'blur(1.5px)',
+                                webkitBackdropFilter: 'blur(1.5px)',
+                            }}>
 
-                    <Grid container sx={{ marginTop: 2 }} spacing={1}>
-                        <Grid item xs={5}>
-                            <CardMedia
-                                component='img'
-                                image={getPokemonImageUrl(dataItem?.url)}
-                                alt={dataItem.name}
-                            />
+                            <Grid container sx={{ marginTop: 2 }} spacing={1}>
+                                <Grid item xs={5}>
+                                    <CardMedia
+                                        component='img'
+                                        image={getPokemonImageUrl(pokemon?.url as string)}
+                                        alt={pokemon.name}
+                                    />
 
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Typography component="div" variant="h5">
-                                {pokemonFirstLetterUpperCase(dataItem?.name)}
-                            </Typography>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Typography component="div" variant="h5">
+                                        {pokemonFirstLetterUpperCase(pokemon?.name as string)}
+                                    </Typography>
 
-                            {
-                                dataItem?.types.map((value: any) => {
+                                    {
+                                        pokemon?.types?.map((typeItem: any) => {
 
-                                    const { color, icon } = pokemonType(value.type.name)
+                                            const { color, icon } = pokemonType(typeItem.type.name)
 
-                                    return (
-                                        <Chip
-                                            icon={icon as any}
-                                            label={pokemonFirstLetterUpperCase(value.type?.name)}
-                                            sx={{ backgroundColor: color, color: '#ffffff' }}
-                                        />
-                                    )
-                                })
-                            }
-                        </Grid>
+                                            return (
+                                                <Chip
+                                                    icon={icon as any}
+                                                    label={pokemonFirstLetterUpperCase(typeItem.type?.name)}
+                                                    sx={{ backgroundColor: color, color: '#ffffff' }}
+                                                />
+                                            )
+                                        })
+                                    }
+                                </Grid>
+                            </Grid>
+
+
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                onClick={() => handlePokemonSelected(pokemon?.id)}
+                                sx={buttonStyles}
+                            > Mais Detalhes
+                            </Button>
+
+                        </Card>
                     </Grid>
 
-
-                    <Button
-                        variant="contained"
-                        fullWidth
-                        onClick={() => handlePokemonSelected(dataItem?.id)}
-                        sx={buttonStyles}
-                    > Mais Detalhes
-                    </Button>
-
-                </Card>
-            </Grid>
-
-        ))
+                ))
+            }
+        </Fragment>
 
     )
 }

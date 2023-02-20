@@ -103,7 +103,7 @@ export class PokemonList {
             name: string
             url: string
         }
-    }
+    }[]
     url?: string
     weight?: number
 }

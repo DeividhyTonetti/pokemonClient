@@ -97,10 +97,7 @@ export const PokemonDialogForm = (props: PokemonDialogFormProps) => {
                                 alt="Remy Sharp"
                                 variant="square"
                                 src={pokemonInformation.imageUrl}
-                                sx={{
-                                    width: 100, height: 100,
-
-                                }}
+                                sx={{ width: 100, height: 100 }}
                             />
                         </Grid>
                     }
