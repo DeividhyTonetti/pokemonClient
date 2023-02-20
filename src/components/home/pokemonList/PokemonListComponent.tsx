@@ -121,7 +121,9 @@ const CardListComponent = (data: any, handlePokemonSelected: Function) => {
 
     const formatCardsBackgroundColors = (color: string): string => {
         const convertColorNameToHex: string = convertCssColorNameToHex(color || 'white')
+        console.log('CONVERTECOLOR: ', convertColorNameToHex)
         const convertColorHexToRGB: string = hexRgb(convertColorNameToHex, { format: 'css', alpha: 0.1 })
+        console.log('convertColorHexToRGB: ', convertColorHexToRGB)
 
         return convertColorHexToRGB
     }
