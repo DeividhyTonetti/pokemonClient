@@ -12,7 +12,6 @@ import { CssBaseline } from '@mui/material/'
 
 // React Dom V6
 import {
-  createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
 

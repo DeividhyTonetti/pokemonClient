@@ -10,8 +10,7 @@ import {
 } from '@mui/material/';
 
 // External Libs
-import hexRgb, { RgbaObject } from 'hex-rgb';
-import * as convertCssColorNameToHex from 'convert-css-color-name-to-hex';
+import hexRgb from 'hex-rgb';
 import * as convert from 'color-convert';
 
 // Models
